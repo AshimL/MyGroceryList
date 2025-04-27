@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDb } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js"
 
 
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 //Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 
 
