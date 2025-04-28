@@ -1,9 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { useAuthStore } from "../store/userInfo";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  return (
-    <div>Navbar</div>
-  )
-}
+  const {logout,username} = useAuthStore();
+  const navigate = useNavigate();
 
-export default Navbar
+  const handleLogout = () =>{
+    logout();
+    navigate("/login")
+  }
+
+  return (
+    <div>
+      {username ? <button onClick={handleLogout}>Logout</button>: ""}
+      
+    </div>
+  );
+};
+
+export default Navbar;

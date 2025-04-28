@@ -40,6 +40,7 @@ export const register = async (req, res) => {
     // Respond with success
     res.status(201).json({
       message: "User Registered Sucessfully ",
+      success: true,
       token,
       user: {
         _id: newUser._id,
@@ -50,7 +51,8 @@ export const register = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Server Error"
+      message: "Server Error",
+      success: false,
     })
   }
 };
@@ -95,6 +97,7 @@ export const login = async (req, res) => {
     // Respond with the token
     res.status(200).json({
       message: "Login Successful ",
+      success: true,
       token,
       user: {
         _id: existingUser._id,
@@ -106,7 +109,8 @@ export const login = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Server Error"
+      message: "Server Error",
+      success: false,
     })
   }
 };

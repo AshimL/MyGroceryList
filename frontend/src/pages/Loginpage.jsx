@@ -1,42 +1,58 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useAuthStore } from '../store/userInfo';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+
+const Loginpage = () => {
+
+  const [userInfo, setuserInfo] = useState({
+    username: "",
+    password: ""
+  });
+
+  const {userLogin, username} =  useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() =>{
+    if(username){
+      navigate("/home")
+    }
+  }, [username,navigate])
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("/api/auth/login", { username, password });
-
-      // Save token and user to localStorage
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      // Navigate to homepage
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-      alert("Login failed");
+    const {message, success} = await userLogin(userInfo);
+    
+    if (success) {
+      navigate("/home")
+    } else {
+      alert(message); 
     }
-  };
+
+  }
+
 
   return (
     <div>
       <h1>Login Page</h1>
-      <form onSubmit={handleLogin}>
-        <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-        <button type="submit">Login</button>
+
+      <form onSubmit={handleLogin} method="POST">
+
+        <input name='username' value={userInfo.username}
+          onChange={(e) => setuserInfo({ ...userInfo, username: e.target.value })} />
+
+        <input name='password' value={userInfo.password}
+        type='password'
+          onChange={(e) => { setuserInfo({ ...userInfo, password: e.target.value }) }} />
+
+        <button type='submit'>Login</button>
       </form>
+
+
+
+
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
-
-
-
+export default Loginpage
