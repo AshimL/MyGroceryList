@@ -1,14 +1,16 @@
 
 import express from "express";
 import verifyToken from "../middleware/authMiddleware.js";
+import { createList, getUserLists} from "../controller/userController.js";
 
 const router = express.Router();
 
 
-//get username
-router.get("/user", verifyToken, (req,res) =>{
-  res.send("test")
-});
+//Make a list
+router.post("/", verifyToken, createList);
 
-export default router
+// Get user lists
+router.get("/", verifyToken, getUserLists);
+export default router;
+
 

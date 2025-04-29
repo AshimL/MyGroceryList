@@ -7,7 +7,14 @@ const HomePage = () => {
   return (
     <div>
       <h1>Hi {username}</h1>
+
+      <p>What you want to get today?</p>
+      <input name="items" />
     </div>
+
+
+
+    
   );
 };
 

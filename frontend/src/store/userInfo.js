@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
-
 export const useAuthStore = create((set) => ({
   username: localStorage.getItem('username') || "",
   token: localStorage.getItem('token') || "",
   userId: localStorage.getItem('userId') || "",
 
+  //Function to handle user registration 
   userRegister: async (userInfo) => {
     if (!userInfo.username || !userInfo.password) {
       return { success: false, message: "Please fill in all fields" }
@@ -43,6 +43,7 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+  //Function to handle user login 
   userLogin: async (userInfo) => {
 
     if (!userInfo.username || !userInfo.password) {
@@ -81,6 +82,8 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+
+  //Function to handle user logout 
   logout: () => {
     // Remove from localStorage and reset the store
     localStorage.removeItem('username');
@@ -89,7 +92,4 @@ export const useAuthStore = create((set) => ({
 
     set({ username: "", token: "", userId: "" });
   }
-
-
-
 }));

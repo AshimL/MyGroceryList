@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 
       try {
 
-        const decode = jwt.decode(token,  process.env.JWT_SECRET);
+        const decode = jwt.verify(token,  process.env.JWT_SECRET);
         req.user = decode
         console.log("The decoded user is :", req.user);
         next();
