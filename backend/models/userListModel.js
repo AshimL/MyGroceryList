@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const userListSchema = new mongoose.Schema({
-  title: {
+  item: {
     type: String,
     required: true
   },

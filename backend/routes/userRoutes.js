@@ -1,16 +1,22 @@
 
 import express from "express";
 import verifyToken from "../middleware/authMiddleware.js";
-import { createList, getUserLists} from "../controller/userController.js";
+import { createItem,  deleteItem,  getUserItems, updateItem, } from "../controller/userController.js";
 
 const router = express.Router();
 
 
-//Make a list
-router.post("/", verifyToken, createList);
+// Create a new item
+router.post("/", verifyToken, createItem);
 
-// Get user lists
-router.get("/", verifyToken, getUserLists);
+// Get all items for the logged-in user
+router.get("/", verifyToken, getUserItems);
+
+
+// Update a specific item by ID
+router.put("/:id", verifyToken, updateItem);
+
+// Delete a specific item by ID
+router.delete("/:id", verifyToken, deleteItem);
 export default router;
-
 
