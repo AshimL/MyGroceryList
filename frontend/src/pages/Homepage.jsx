@@ -31,3 +31,5 @@ const HomePage = () => {
 
 export default HomePage;
 
+
+// Ask what happens step by step when fetching the items, so first the set gets filled then fetch items ? then displatItem component?

@@ -10,16 +10,25 @@ const CreateItem = () => {
   const {token}  = useAuthStore()
 
 
-  const handleClick  = async (e) =>{
+  const handleSubmit  = async (e) =>{
     e.preventDefault();
     const {success, message} = await createItem(item,token)
 
     if (success) {
-      alert(message);
       setItem(""); 
     } else {
       alert("Did not work: " + message);
     }
+  }
+
+
+  const handleKeyDown = (e) =>{
+    if(e.key === "Enter"){
+      console.log("Enter key pressed");
+      e.preventDefault();
+      handleSubmit(e);
+    }
+
   }
 
   return (
@@ -28,9 +37,10 @@ const CreateItem = () => {
         name="item"
         value={item}
         onChange={(e) => setItem(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="Enter item"
       />
-      <button onClick={handleClick}>Save</button>
+      <button onClick={handleSubmit}>Save</button>
     </div>
   );
 }
