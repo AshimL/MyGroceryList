@@ -4,12 +4,13 @@ import { UserList } from "../models/userListModel.js"
 
 export const createItem = async (req, res) => {
   try {
-    const { item } = req.body
+    const { item, folderId } = req.body
     const userId = req.user.id
 
     const newList = new UserList({
       item,
-      userId
+      userId,
+      folderId: folderId || null
     })
 
     await newList.save();
