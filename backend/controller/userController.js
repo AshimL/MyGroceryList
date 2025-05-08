@@ -4,17 +4,18 @@ import { UserList } from "../models/userListModel.js"
 
 export const createItem = async (req, res) => {
   try {
-    const { item, folderId } = req.body
-    const userId = req.user.id
+    const { item } = req.body;
+    const { folderId } = req.query;
+    const userId = req.user.id;
+    const parsedFolderId = folderId === "null" ? null : folderId;
 
     const newList = new UserList({
       item,
       userId,
-      folderId: folderId || null
+      folderId: parsedFolderId
     })
 
     await newList.save();
-
     res.status(201).json({ success: true, data: newList })
 
   } catch (error) {
@@ -28,8 +29,17 @@ export const getUserItems = async (req, res) => {
 
   try {
     const userId = req.user.id;
+    const { folderId } = req.query;
+    const query = { userId }
 
-    const lists = await UserList.find({ userId })
+    if (folderId === "null") {
+      query.folderId = null;
+    }
+    else if (folderId) {
+      query.folderId = folderId;
+    }
+
+    const lists = await UserList.find(query)
     res.status(200).json({ success: true, data: lists });
 
   } catch (error) {
@@ -55,12 +65,12 @@ export const updateItem = async (req, res) => {
 
   try {
     const updatedList = await UserList.findOneAndUpdate(
-      {_id:itemId,userId:userId},
+      { _id: itemId, userId: userId },
       newItem,
-      {new:true}
+      { new: true }
     );
 
-    if(!updatedList){
+    if (!updatedList) {
       return res.status(404).json({
         success: false,
         message: "Item not found"
@@ -68,22 +78,22 @@ export const updateItem = async (req, res) => {
     }
 
     return res.status(200).json({
-      success:true,
+      success: true,
       data: updatedList
     })
-    
+
   } catch (error) {
     return res.status(500).json({
-      success:false,
+      success: false,
       message: "Server Error"
     })
-    
+
   }
 
 }
 
-export const deleteItem = async (req,res) =>{
-  const  itemId = req.params.id;
+export const deleteItem = async (req, res) => {
+  const itemId = req.params.id;
   const userId = req.user.id;
 
   if (!mongoose.Types.ObjectId.isValid(itemId)) {
@@ -95,19 +105,19 @@ export const deleteItem = async (req,res) =>{
 
   try {
 
-    await UserList.findOneAndDelete({_id:itemId, userId});
+    await UserList.findOneAndDelete({ _id: itemId, userId });
     res.status(200).json({
-      success:true,
+      success: true,
       message: "Item Deleted"
     })
-    
+
   } catch (error) {
     console.log("error in deleting item: ", error.message);
     res.status(500).json({
-      success:false,
+      success: false,
       message: "Server error"
     })
-    
+
   }
 }
 
