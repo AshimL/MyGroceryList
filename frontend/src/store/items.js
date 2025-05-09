@@ -6,13 +6,18 @@ import axios from "axios";
 export const  useItemStore = create((set) => ({
   items: [],
   
-  createItem: async (item, token) =>{
+  createItem: async (item, token, folderId = null) =>{
     if (!item) {
       return { success: false, message: "Please fill in the fields" }
     }
 
     try {
-      const res = await axios.post("/api/users", {item},
+
+      const url = folderId
+      ? `/api/users/?folderId=${folderId}`
+      : `api/users`
+
+      const res = await axios.post(url, {item},
         {headers: {Authorization: `Bearer ${token}`}}
       );
 
@@ -34,12 +39,13 @@ export const  useItemStore = create((set) => ({
 
   },
 
-  fetchItem: async (token) =>{
+  fetchItem: async (token, folderId = null) =>{
 
     try {
       const res = await axios.get("/api/users", {
 
-        headers: { Authorization: `Bearer ${token}`}
+        headers: { Authorization: `Bearer ${token}`},
+        params: folderId !== null ? { folderId } : { folderId: "null" }
       })
 
       set({items: res.data.data});
