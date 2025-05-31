@@ -8,7 +8,7 @@ export const createFolder = async (req, res) => {
     const userId = req.user.id
 
     const newFolder = new Folder({ name, userId })
-    newFolder.save();
+    await newFolder.save();
 
     res.status(201).json({ success: true, data: newFolder });
 
@@ -33,32 +33,38 @@ export const getUserFolder = async (req, res) => {
 }
 
 
-export const renameFolder = async (req, res) => {
 
+export const renameFolder = async (req, res) => {
   const folderId = req.params.id;
   const userId = req.user.id;
-  const name = req.body;
+  const { name } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(folderId)) {
     return res.status(404).json({
       success: false,
-      message: "Invalid item Id"
-    })
+      message: "Invalid folder Id",
+    });
   }
 
   try {
-    const updatedName = await Folder.findOneAndUpdate(
+    const updatedFolder = await Folder.findOneAndUpdate(
       { _id: folderId, userId },
-      name,
-      { new: true })
+      { name },
+      { new: true }
+    );
 
-    res.status(200).json({ success: true, data: updatedName });
+    if (!updatedFolder) {
+      return res.status(404).json({
+        success: false,
+        message: "Folder not found",
+      });
+    }
 
+    res.status(200).json({ success: true, data: updatedFolder });
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to rename folder" });
   }
-
-}
+};
 
 
 export const deleteFolder = async (req, res) => {

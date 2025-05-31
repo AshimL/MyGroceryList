@@ -78,7 +78,7 @@ export const  useItemStore = create((set) => ({
 
     try {
       const res = await axios.put(`/api/users/${itemId}`,
-        {updatedItem},
+        updatedItem,
         {headers: {Authorization: `Bearer ${token}`}}
       )
 
