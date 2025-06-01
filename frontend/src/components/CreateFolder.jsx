@@ -14,6 +14,9 @@ const CreateFolder = () => {
   const handleSave = async (e) =>{
     e.preventDefault();
     const {success, message} = await createFolder(folderName, token)
+    if(!success){
+      alert(`${message}`)
+    }
     setFolderName("")
     setClicked(false)
   }
@@ -41,6 +44,10 @@ const CreateFolder = () => {
           autoFocus
           />
           <button onClick={handleSave}>Save</button>
+          <button onClick={() => {
+            setFolderName("")
+            setClicked(false)
+          }}>Cancel</button>
         </div>
       )}
     </div>

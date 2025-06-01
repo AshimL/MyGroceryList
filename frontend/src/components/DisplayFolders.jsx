@@ -27,13 +27,12 @@ const DisplayFolders = () => {
     if (!newName.trim()) return;
 
     const res = await renameFolder(folderId, { name: newName }, token);
-    console.log(res.message);
 
     if (res.success) {
       setEditingId(null);
       setNewName("");
     } else {
-      alert("Rename failed");
+      alert(`${res.message}`);
     }
   };
 

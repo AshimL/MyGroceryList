@@ -62,6 +62,16 @@ const FolderPage = () => {
     }
   };
 
+  const handleAddToList = async (item) => {
+  const res = await createItem(item, token, null);
+  if (!res.success) {
+    alert(res.message || "Failed to add item to list");
+  }
+  else{
+    fetchItem(token,folderId)
+  }
+};
+
   return (
     <div>
       <button onClick={() => navigate(-1)}>Back</button>
@@ -112,6 +122,7 @@ const FolderPage = () => {
                   setNewName(item.item);
                 }}>Rename</button>
                 <button onClick={() => handleDelete(item._id)}>Delete</button>
+                 <button onClick={() => handleAddToList(item.item)}>Add to list</button>
               </>
             )}
           </div>

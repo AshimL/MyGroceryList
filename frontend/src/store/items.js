@@ -10,12 +10,11 @@ export const  useItemStore = create((set) => ({
     if (!item) {
       return { success: false, message: "Please fill in the fields" }
     }
-
     try {
 
       const url = folderId
       ? `/api/users/?folderId=${folderId}`
-      : `api/users`
+      : `/api/users`
 
       const res = await axios.post(url, {item},
         {headers: {Authorization: `Bearer ${token}`}}
