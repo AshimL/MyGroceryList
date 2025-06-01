@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import LoginPage from "./pages/Loginpage";
 import Registerpage from "./pages/Registerpage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import FolderPage from "./components/FolderPage";
 
 
 function App() {
@@ -14,6 +15,9 @@ function App() {
     <Navbar />
     <Routes>
       <Route path="/home" element= {<ProtectedRoute element={<Homepage />} />}   />
+      <Route path="/folders/:folderId" element={<ProtectedRoute element={<FolderPage />} />} />
+
+
       <Route path="/login" element= {< LoginPage />}   />
       <Route path="/register" element= {< Registerpage />}   />
     </Routes>

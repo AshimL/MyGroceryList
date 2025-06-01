@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useFolderStore } from '../store/folders';
 import { useAuthStore } from '../store/userInfo';
+import { Link } from 'react-router-dom';
 
 const DisplayFolders = () => {
   const { folders, fetchFolders, deleteFolders, renameFolder } = useFolderStore();
@@ -16,9 +17,9 @@ const DisplayFolders = () => {
   }, [token, fetchFolders]);
 
   const handleDelete = async (folderId) => {
-    if (window.confirm("Delete this folder?")) {
+
       await deleteFolders(folderId, token);
-    }
+    
   };
 
   const handleRename = async (folderId) => {
@@ -57,7 +58,9 @@ const DisplayFolders = () => {
                 </>
               ) : (
                 <>
-                  <p>{folder.name}</p>
+                  <Link to={`/folders/${folder._id}`}>
+                    <p>{folder.name}</p>
+                  </Link>
                   <button
                     onClick={() => {
                       setEditingId(folder._id);
