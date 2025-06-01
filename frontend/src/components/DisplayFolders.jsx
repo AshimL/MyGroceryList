@@ -17,9 +17,10 @@ const DisplayFolders = () => {
   }, [token, fetchFolders]);
 
   const handleDelete = async (folderId) => {
-
-      await deleteFolders(folderId, token);
-    
+    const res =   await deleteFolders(folderId, token);
+    if(!res.success){
+      alert(res.message ||  "Delete failed")
+    }
   };
 
   const handleRename = async (folderId) => {
@@ -39,7 +40,7 @@ const DisplayFolders = () => {
   return (
     <div>
       {!folders || folders.length === 0 ? (
-        <p>No folders</p>
+        <p>No folders yet.</p>
       ) : (
         <div>
           <p>Folder list</p>
@@ -52,6 +53,13 @@ const DisplayFolders = () => {
                     onChange={(e) => setNewName(e.target.value)}
                     placeholder="New name"
                     autoFocus
+
+                     onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleRename(folder._id);
+                    }
+                  }}
                   />
                   <button onClick={() => handleRename(folder._id)}>Save</button>
                   <button onClick={() => setEditingId(null)}>Cancel</button>

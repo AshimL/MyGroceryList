@@ -40,6 +40,7 @@ const CreateItem = () => {
         onChange={(e) => setItem(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Enter item"
+        autoFocus
       />
       <button onClick={handleSubmit}>Save</button>
     </div>

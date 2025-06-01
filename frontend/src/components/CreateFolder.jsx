@@ -38,6 +38,7 @@ const CreateFolder = () => {
           onChange={(e) => setFolderName(e.target.value)}
           placeholder="Folder name"
           onKeyDown={handleKeyDown}
+          autoFocus
           />
           <button onClick={handleSave}>Save</button>
         </div>

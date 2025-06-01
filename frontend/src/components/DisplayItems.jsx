@@ -16,9 +16,9 @@ const DisplayItems = () => {
   }, [token, fetchItem]);
 
   const handleDelete = async (itemId) => {
-    const { message } = await deleteItem(itemId, token);
-    if (!message) {
-      alert(message);
+    const res = await deleteItem(itemId, token);
+    if (!res.success) {
+      alert(res.message || "Delete failed");
     }
   };
 
@@ -44,6 +44,14 @@ const DisplayItems = () => {
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="New item name"
+                autoFocus
+
+                 onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleUpdate(item._id);
+                    }
+                  }}
               />
               <button onClick={() => handleUpdate(item._id)}>Save</button>
               <button onClick={() => setEditingId(null)}>Cancel</button>
